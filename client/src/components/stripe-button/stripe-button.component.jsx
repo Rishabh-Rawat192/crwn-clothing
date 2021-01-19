@@ -1,4 +1,5 @@
 import StripCheckout from "react-stripe-checkout";
+import axios from "axios";
 
 const StripCheckoutButton = ({ price }) => {
     const priceForStripe = price * 100;
@@ -7,7 +8,21 @@ const StripCheckoutButton = ({ price }) => {
 
     const onToken = (token) => {
         console.log(token);
-        alert("Payment successful!");
+        axios({
+            url: "payment",
+            method: "POST",
+            data: {
+                amount: priceForStripe,
+                token,
+            },
+        })
+            .then((response) => alert("Payment successful!"))
+            .catch((error) => {
+                console.log("Payment Error: ", error);
+                alert(
+                    "There was an issue with your payment. Please use the provided credit card"
+                );
+            });
     };
 
     return (
@@ -17,8 +32,8 @@ const StripCheckoutButton = ({ price }) => {
             billingAddress
             shippingAddress
             image="https://svgshare.com/i/CUz.svg"
-            currency="USD"
-            description={`Your total is $${price}`}
+            currency="INR"
+            description={`Your total is ₹${price}`}
             amount={priceForStripe}
             panelLabel="Pay Now"
             token={onToken}
