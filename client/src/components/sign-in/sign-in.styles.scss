@@ -11,4 +11,14 @@
         display: flex;
         justify-content: space-between;
     }
+
+    @media screen and (max-width: 800px) {
+        .buttons {
+            display: grid;
+
+            :last-child {
+                margin-top: 10px;
+            }
+        }
+    }
 }
