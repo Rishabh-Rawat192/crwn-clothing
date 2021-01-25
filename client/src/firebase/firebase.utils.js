@@ -88,4 +88,13 @@ export const getCurrentUser = () => {
     });
 };
 
+export const getCartRef = async (userId) => {
+    const cartRef = firestore.doc(`/carts/${userId}`);
+    const cartSnapshot = await cartRef.get();
+
+    if (!cartSnapshot.exists) cartRef.set({ cartItems: [] });
+
+    return cartRef;
+};
+
 export default firebase;
